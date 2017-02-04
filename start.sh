@@ -6,11 +6,11 @@ fi
 echo "127.0.0.1 subsonic.org" >> /etc/hosts
 set -e
 
-[ ! -L /data-transcode ] && ln -s /var/subsonic.default/transcode /data-transcode
+[ ! -L /data-transcode ] && ln -s /var/libresonic.default/transcode /data-transcode
 
 #Install/Link Transcoders
-mkdir -p /var/subsonic/transcode && \
-cd /var/subsonic/transcode && \
+mkdir -p /var/libresonic/transcode && \
+cd /var/libresonic/transcode && \
 ln -s "$(which ffmpeg)" && \
 ln -s "$(which flac)" && \
 ln -s "$(which lame)"
@@ -18,7 +18,7 @@ ln -s "$(which lame)"
 
 
 
-/usr/share/subsonic/subsonic.sh --host=$LOCALIP --max-memory=1024   & > /dev/null
+/usr/share/libresonic/libresonic.sh --host=$LOCALIP --max-memory=1024   & > /dev/null
 
 #do not exit container
 while true
