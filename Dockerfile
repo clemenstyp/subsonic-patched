@@ -23,31 +23,31 @@ RUN	apt-get update && \
 	apt-get update && \
 	apt-get install -y oracle-java8-installer ffmpeg maven git lintian fakeroot && \
 #Download Sources from Git
-	git clone git://github.com/EugeneKay/subsonic.git && \
-	cd /subsonic && \
+	git clone git://github.com/Libresonic/libresonic.git && \
+	cd /libresonic && \
 	git checkout stable && \
 #Build Sources from Scratch
 	mvn package && \
-	mvn -P full -pl subsonic-booter -am install && \
-	mvn -P full -pl subsonic-installer-debian/ -am install && \
+	mvn -P full -pl libresonic-booter -am install && \
+	mvn -P full -pl libresonic-installer-debian/ -am install && \
 #Install Subsonic
-	dpkg -i ./subsonic-installer-debian/target/subsonic-*.deb && \
+	dpkg -i ./libresonic-installer-debian/target/libresonic-*.deb && \
 #Remove unnecessary files
-	rm -r -f /subsonic /root/.m2 && \
+	rm -r -f /libresonic /root/.m2 && \
 	apt-get purge -y maven git lintian fakeroot software-properties-common python-software-properties && \
 	apt-get autoremove -y && \
  	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* && \
 	rm -rf /var/cache/oracle-jdk8-installer 
 
-RUN	mv /var/subsonic /var/subsonic.default && \
-	ln -s /data /var/subsonic 
+RUN	mv /var/libresonic /var/libresonic.default && \
+	ln -s /data /var/libresonic 
 
 # Don't fork to the background
-RUN	sed -i "s/ > \${LOG} 2>&1 &//" /usr/share/subsonic/subsonic.sh 
+RUN	sed -i "s/ > \${LOG} 2>&1 &//" /usr/share/libresonic/libresonic.sh 
 
-#RUN	sed -i "17d" /etc/default/subsonic && \
-#	sed -i "i1SUBSONIC_ARGS=\"--port=4040 --https-port=4443 --max-memory=200\"" /etc/default/subsonic
+#RUN	sed -i "17d" /etc/default/libresonic && \
+#	sed -i "i1SUBSONIC_ARGS=\"--port=4040 --https-port=4443 --max-memory=200\"" /etc/default/libresonic
 
 VOLUME	["/data"]
 VOLUME	["/Media"]
