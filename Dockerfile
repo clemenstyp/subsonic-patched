@@ -25,7 +25,7 @@ RUN	apt-get update && \
 #Download Sources from Git
 	git clone git://github.com/EugeneKay/subsonic.git && \
 	cd /subsonic && \
-	git checkout release && \
+	git checkout stable && \
 #Build Sources from Scratch
 	mvn package && \
 	mvn -P full -pl subsonic-booter -am install && \
